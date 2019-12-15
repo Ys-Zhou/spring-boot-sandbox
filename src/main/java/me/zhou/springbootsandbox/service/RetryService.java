@@ -7,26 +7,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class RetryService {
 
-  @Retryable(
-      maxAttempts = 1,
-      include = {TestExceptionOne.class}
-  )
+  @Retryable(maxAttempts = 1, include = {TestExceptionOne.class})
   public String testExceptionOne() throws TestExceptionOne {
     throw new TestExceptionOne("Exception One");
   }
 
-  @Retryable(
-      maxAttempts = 1,
-      include = {TestExceptionOne.class}
-  )
+  @Retryable(maxAttempts = 1, include = {TestExceptionOne.class})
   public String testExceptionOneWithParam(String str) throws TestExceptionOne {
     throw new TestExceptionOne("Exception One with param");
   }
 
-  @Retryable(
-      maxAttempts = 1,
-      include = {TestExceptionTwo.class}
-  )
+  @Retryable(maxAttempts = 1, include = {TestExceptionOne.class})
+  public int testExceptionOneWithDifferentReturn() throws TestExceptionOne {
+    throw new TestExceptionOne("Exception One with different return");
+  }
+
+  @Retryable(maxAttempts = 1, include = {TestExceptionTwo.class})
   public String testExceptionTwo() throws TestExceptionTwo {
     throw new TestExceptionTwo("Exception Two");
   }
@@ -39,6 +35,11 @@ public class RetryService {
   @Recover
   public String recoverForExceptionOneWithParam(TestExceptionOne e, String str) {
     return String.format("%s (str: %s)", e.getMessage(), str);
+  }
+
+  @Recover
+  public int recoverForExceptionOneWithDifferentReturn(TestExceptionOne e) {
+    return 500;
   }
 
   @Recover

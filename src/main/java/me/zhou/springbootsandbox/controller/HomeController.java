@@ -29,6 +29,9 @@ public class HomeController {
         + "<br>"
         + retryService.testExceptionOneWithParam("retry sample")
         + "<br>"
+        + String.format("Exception One with different return (return: %d)",
+        retryService.testExceptionOneWithDifferentReturn())
+        + "<br>"
         + retryService.testExceptionTwo();
   }
 
